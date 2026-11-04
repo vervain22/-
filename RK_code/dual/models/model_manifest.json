@@ -1,0 +1,6 @@
+{
+  "rknn_sha256": "6449404ea728cac01b3ca7bb931af9da78ea0e432731f5c969b04ffa058b6ae6",
+  "onnx_sha256": "0c8716701f471067932b797eeb67c8e5db47c693c2557c881d7679ec12e21bc5",
+  "target": "rk3568",
+  "quantized": false
+}

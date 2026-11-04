@@ -1,0 +1,21 @@
+# Prioritize command selection and one upstream DQS enable segment.
+# Syntax follows ipcore/ddr3/pnr/ddr3.rcf supplied with the vendor IP.
+# Based on the 23:52:03 RTR: group 1 command selection and group 0 DQS
+# enable are the remaining long upstream routes. Do not prioritize the
+# DQS output (adj_wrdqs), so its routing remains available for hold repair.
+# This does not change timing exceptions, placement seeds, or PHY logic.
+def_route -prior_net {I_ips_ddr_top/u_ddrphy_top/ddrphy_slice_top/debug_data [66]}
+def_route -prior_net {I_ips_ddr_top/u_ddrphy_top/ddrphy_slice_top/all_group_ca_dly}
+def_route -prior_net {I_ips_ddr_top/u_ddrphy_top/ddrphy_slice_top/adj_we_n [0]}
+def_route -prior_net {I_ips_ddr_top/u_ddrphy_top/ddrphy_slice_top/debug_data [135]}
+def_route -prior_net {I_ips_ddr_top/u_ddrphy_top/ddrphy_slice_top/i_dqs_group[0].ddrphy_data_slice/wrlvl_dqs_en}
+
+# 2026-10-15 box3 report: group 1 upstream enable route contributes 2.510 ns
+# to a -0.099 ns setup violation. Leave adj_wrdqs available for hold repair.
+def_route -prior_net {I_ips_ddr_top/u_ddrphy_top/ddrphy_slice_top/i_dqs_group[1].ddrphy_data_slice/wrlvl_dqs_en}
+
+# 2026-10-15 13:59 RTR: ck_dqs_diff[1] upstream alias has fanout 81,
+# 2.793 ns route delay and feeds the -0.143 ns DQS setup path.
+# Use the exact implemented net name from the report; leave adj_wrdqs
+# output routing available for hold repair. No new timing exceptions.
+def_route -prior_net {I_ips_ddr_top/u_ddrphy_top/ddrphy_slice_top/i_dqs_group[1].ddrphy_data_slice/I_ips_ddr_top/debug_data_alias [136]}
